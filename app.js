@@ -75,4 +75,17 @@ function showResults() {
     e.preventDefault();
 
 });
+
+setTimeout(modal, 1000);
+
+}
+
+function modal() {
+  document.getElementById('modal').style.display = 'block';
+  document.getElementById('x').addEventListener('click', closeModal);
+  
+  function closeModal() {
+    console.log(1);
+    document.getElementById('modal').style.display = 'none';
+  };
 }
