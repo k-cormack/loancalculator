@@ -29,8 +29,8 @@ function calculateResults() {
     monthlyPayment.value = monthly.toFixed(2);
     totalPayment.value = (monthly * calculatedPayments).toFixed(2);
     totalInterest.value = ((monthly * calculatedPayments) - principal).toFixed(2);
-    setTimeout(clearLoading, 3000);
-    setTimeout(showResults, 3200);
+    setTimeout(function() {clearLoading(), showResults()}, 3000);
+    // setTimeout(showResults, 3200);
 
     } else {
       showError('Please Check Your Numbers!');
