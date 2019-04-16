@@ -36,6 +36,12 @@ function calculateResults() {
       showError('Please Check Your Numbers!');
     }
 
+    amount.disabled = true;
+    interest.disabled = true;
+    years.disabled = true;
+    document.getElementById('calcBtn').disabled = true;
+
+
 
 }
 
@@ -69,6 +75,12 @@ function showResults() {
     document.getElementById('amount').value = '';
     document.getElementById('interest').value = '';
     document.getElementById('years').value = '';
+    document.getElementById('amount').disabled = false;
+    document.getElementById('interest').disabled = false;
+    document.getElementById('years').disabled = false;
+    document.getElementById('calcBtn').removeAttribute(disabled);
+
+
 
 
 
