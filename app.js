@@ -1,3 +1,32 @@
+//Loan Inquery constructor ES5
+function LoanInquery(amount, interest, years, monthlyPayment, totalPayment, totalInterest) {
+  this.amount = amount;
+  this.interest = interest;
+  this.years = years;
+  this.monthlyPayment = monthlyPayment;
+  this.totalPayment = totalPayment;
+  this.totalInterest = totalInterest;
+}
+
+//UI Constructor ES5
+function UI() {
+  UI.prototype.addInqueryToList = function(loanInquery) {
+    const list = document.getElementById('inquery-list');
+    const row = document.createElement('tr');
+    row.innerHTML = `
+    <td>${loanInquery.amount}</td>
+    <td>${loanInquery.interest}</td>
+    <td>${loanInquery.years}</td>
+    <td>${loanInquery.monthlyPayment}</td>
+    <td>${loanInquery.totalPayment}</td>
+    <td>${loanInquery.totalInterest}</td>
+    `;
+    // console.log(row);
+    list.append(row);
+  }
+}
+
+
 document.getElementById('loan-form').addEventListener('submit', function(e) {
   document.getElementById('results').style.display = 'none';
   calculateResults();
@@ -11,9 +40,11 @@ function calculateResults() {
   const amount = document.getElementById('amount');
   const interest = document.getElementById('interest');
   const years = document.getElementById('years');
+
   const monthlyPayment = document.getElementById('monthly-payment');
   const totalPayment = document.getElementById('total-payment');
   const totalInterest = document.getElementById('total-interest');
+
 
   const principal = parseFloat(amount.value);
   // console.log(principal);
@@ -29,20 +60,20 @@ function calculateResults() {
     monthlyPayment.value = monthly.toFixed(2);
     totalPayment.value = (monthly * calculatedPayments).toFixed(2);
     totalInterest.value = ((monthly * calculatedPayments) - principal).toFixed(2);
-    setTimeout(function() {clearLoading(), showResults()}, 3000);
+    setTimeout(function() {clearLoading(), showResults(loanInquery), showTable()}, 3000);
     // setTimeout(showResults, 3200);
-
-    } else {
-      showError('Please Check Your Numbers!');
-    }
-
     amount.disabled = true;
     interest.disabled = true;
     years.disabled = true;
     document.getElementById('calcBtn').disabled = true;
+    const loanInquery = new LoanInquery(amount.value, interest.value, years.value, monthlyPayment.value, totalPayment.value, totalInterest.value);
+    // console.log(loanInquery);
+    const ui = new UI();
+    ui.addInqueryToList(loanInquery);
 
-
-
+    } else {
+      showError('Please Check Your Numbers!');
+    }
 }
 
 function showError(error) {
@@ -68,31 +99,32 @@ function clearLoading() {
   document.getElementById('loading').style.display = 'none';
 }
 
-function showResults() {
-  document.getElementById('results').style.display = 'block';
-  document.getElementById('clear').addEventListener('submit', function(e) {
-    document.getElementById('results').style.display = 'none';
-    document.getElementById('amount').value = '';
-    document.getElementById('interest').value = '';
-    document.getElementById('years').value = '';
-    document.getElementById('amount').disabled = false;
-    document.getElementById('interest').disabled = false;
-    document.getElementById('years').disabled = false;
-    document.getElementById('calcBtn').removeAttribute(disabled);
+function showResults(loanInquery) {
+    document.getElementById('results').style.display = 'block';
+    document.getElementById('clear').addEventListener('submit', function(e) {
+      document.getElementById('results').style.display = 'none';
+      document.getElementById('amount').value = '';
+      document.getElementById('interest').value = '';
+      document.getElementById('years').value = '';
+      document.getElementById('amount').disabled = false;
+      document.getElementById('interest').disabled = false;
+      document.getElementById('years').disabled = false;
+      document.getElementById('calcBtn').removeAttribute('disabled');
+      // console.log(loanInquery);
 
 
+      e.preventDefault();
+    });
+// setTimeout(modal, 1000);
+}
 
-
-
-    e.preventDefault();
-
-});
-
-setTimeout(modal, 1000);
+function showTable() {
+  document.querySelector('table').style.display = 'block';
 
 }
 
 function modal() {
+// document.getElementById('content').innerHTML = `${href ='./src/content.html'}`
   document.getElementById('modal').style.display = 'block';
   document.getElementById('x').addEventListener('click', closeModal);
   
