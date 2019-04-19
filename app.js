@@ -42,14 +42,8 @@ function UI() {
           }
         }
       }
-
-      const listCheck = document.querySelectorAll('tr');
-
-      if (listCheck.length <= 1) {
-        document.getElementById('table').style.display = 'none';
-        clearForm();
-      }
-      // e.preventDefault();
+      listCheck(e);
+      
     });        
   }
 }
@@ -142,16 +136,18 @@ function clearForm(e) {
   document.getElementById('years').disabled = false;
   document.getElementById('calcBtn').removeAttribute('disabled');
   document.getElementById('amount').focus();
- 
+  // console.log(e);
   e.preventDefault();
 }
 
 function showTable() {
   document.getElementById('table').style.display = 'block';
+  document.getElementById('clear-list').addEventListener('click', clearList);
+  document.getElementById('checked-button').addEventListener('click', clearChecked)
   
 }
 
-function clearList() {
+function clearList(e) {
   let list = document.getElementById('inquery-list');
   let child = list.lastElementChild;
   while (child) {
@@ -159,22 +155,27 @@ function clearList() {
     child = list.lastElementChild;
   };
   document.getElementById('table').style.display = 'none';
-  clearForm();
+  clearForm(e);
 }
 
-function clearChecked() {
+function clearChecked(e) {
   let checked = document.querySelectorAll('.checkbox');
-  // console.log(checked[0].checked);
   for (let i = 0; i <= checked.length - 1; i++) {
     if (checked[i].checked === true) {
       checked[i].parentElement.parentElement.remove();
     }
   }
+  listCheck(e);
+
   document.getElementById('checked-button').style.backgroundColor = 'black';
+}
+
+function listCheck(e) {
   const listCheck = document.querySelectorAll('tr');
-      if (listCheck.length <= 1) {
-        document.getElementById('table').style.display = 'none';        
-      }
+  if (listCheck.length <= 1) {
+    document.getElementById('table').style.display = 'none';
+    clearForm(e);
+   }
 }
 
 function modal() {
