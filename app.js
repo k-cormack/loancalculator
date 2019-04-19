@@ -97,8 +97,6 @@ function calculateResults() {
     monthlyPayment.value = monthly.toFixed(2);
     totalPayment.value = (monthly * calculatedPayments).toFixed(2);
     totalInterest.value = ((monthly * calculatedPayments) - principal).toFixed(2);
-    setTimeout(function() {clearLoading(), showResults(loanInquery), showTable()}, 500);
-    // setTimeout(showResults, 3200);
     amount.disabled = true;
     interest.disabled = true;
     years.disabled = true;
@@ -106,8 +104,13 @@ function calculateResults() {
     const loanInquery = new LoanInquery(amount.value, interest.value, years.value, monthlyPayment.value, totalPayment.value, totalInterest.value);
     // console.log(loanInquery);
     const ui = new UI();
+    if (document.getElementById('table').style.display != 'block') {
     ui.addInqueryToList(loanInquery);
-
+    setTimeout(function() {clearLoading(), showResults(loanInquery), showTable()}, 500);
+    // setTimeout(showResults, 3200);
+      } else {
+        setTimeout(function() {clearLoading(), showResults(loanInquery), ui.addInqueryToList(loanInquery)}, 500);
+      }
     } else {
       showError('Please Check Your Numbers!');
     }
