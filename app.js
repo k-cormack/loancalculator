@@ -48,6 +48,22 @@ function UI() {
   }
 }
 
+document.getElementById('amount').addEventListener('keydown', function(e) {
+  if (e.which === 69) {
+    e.preventDefault();
+  }
+})
+document.getElementById('interest').addEventListener('keydown', function(e) {
+  if (e.which === 69) {
+    e.preventDefault();
+  }
+})
+document.getElementById('years').addEventListener('keydown', function(e) {
+  if (e.which === 69) {
+    e.preventDefault();
+  }
+})
+
 document.getElementById('loan-form').addEventListener('submit', function(e) {
   document.getElementById('results').style.display = 'none';
   calculateResults();
@@ -122,6 +138,7 @@ function clearLoading() {
 
 function showResults() {
     document.getElementById('results').style.display = 'block';
+    document.getElementById('clear-form-btn').focus();
     document.getElementById('clear-form').addEventListener('submit', clearForm)
 // setTimeout(modal, 1000);
 }
