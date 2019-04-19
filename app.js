@@ -14,18 +14,45 @@ function UI() {
     const list = document.getElementById('inquery-list');
     const row = document.createElement('tr');
     row.innerHTML = `
-    <td>${loanInquery.amount}</td>
-    <td>${loanInquery.interest}</td>
+    <td>\$${loanInquery.amount}.00</td>
+    <td>${loanInquery.interest}%</td>
     <td>${loanInquery.years}</td>
-    <td>${loanInquery.monthlyPayment}</td>
-    <td>${loanInquery.totalPayment}</td>
-    <td>${loanInquery.totalInterest}</td>
+    <td>\$${loanInquery.monthlyPayment}</td>
+    <td>\$${loanInquery.totalPayment}</td>
+    <td>\$${loanInquery.totalInterest}</td>
+    <td><span id="delete" class="delete">&times;</span></td>
+    <td><input type="checkbox" class="checkbox"></td>
     `;
-    // console.log(row);
+
     list.append(row);
+
+    row.addEventListener('click', function(e) {
+      if (e.target.className === 'delete') {
+        e.target.parentElement.parentElement.remove();
+      }
+      
+      if (e.target.className === 'checkbox') {
+        let checked = document.querySelectorAll('.checkbox');
+        for (let i = 0; i <= checked.length - 1; i++) {
+          if (checked[i].checked === true) {
+            document.getElementById('checked-button').style.backgroundColor = 'red';
+            break;
+          } else {
+            document.getElementById('checked-button').style.backgroundColor = 'black';
+          }
+        }
+      }
+
+      const listCheck = document.querySelectorAll('tr');
+
+      if (listCheck.length <= 1) {
+        document.getElementById('table').style.display = 'none';
+        clearForm();
+      }
+      // e.preventDefault();
+    });        
   }
 }
-
 
 document.getElementById('loan-form').addEventListener('submit', function(e) {
   document.getElementById('results').style.display = 'none';
@@ -60,7 +87,7 @@ function calculateResults() {
     monthlyPayment.value = monthly.toFixed(2);
     totalPayment.value = (monthly * calculatedPayments).toFixed(2);
     totalInterest.value = ((monthly * calculatedPayments) - principal).toFixed(2);
-    setTimeout(function() {clearLoading(), showResults(loanInquery), showTable()}, 3000);
+    setTimeout(function() {clearLoading(), showResults(loanInquery), showTable()}, 500);
     // setTimeout(showResults, 3200);
     amount.disabled = true;
     interest.disabled = true;
@@ -99,28 +126,55 @@ function clearLoading() {
   document.getElementById('loading').style.display = 'none';
 }
 
-function showResults(loanInquery) {
+function showResults() {
     document.getElementById('results').style.display = 'block';
-    document.getElementById('clear').addEventListener('submit', function(e) {
-      document.getElementById('results').style.display = 'none';
-      document.getElementById('amount').value = '';
-      document.getElementById('interest').value = '';
-      document.getElementById('years').value = '';
-      document.getElementById('amount').disabled = false;
-      document.getElementById('interest').disabled = false;
-      document.getElementById('years').disabled = false;
-      document.getElementById('calcBtn').removeAttribute('disabled');
-      // console.log(loanInquery);
-
-
-      e.preventDefault();
-    });
+    document.getElementById('clear-form').addEventListener('submit', clearForm)
 // setTimeout(modal, 1000);
 }
 
-function showTable() {
-  document.querySelector('table').style.display = 'block';
+function clearForm(e) {
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('amount').value = '';
+  document.getElementById('interest').value = '';
+  document.getElementById('years').value = '';
+  document.getElementById('amount').disabled = false;
+  document.getElementById('interest').disabled = false;
+  document.getElementById('years').disabled = false;
+  document.getElementById('calcBtn').removeAttribute('disabled');
+  document.getElementById('amount').focus();
+ 
+  e.preventDefault();
+}
 
+function showTable() {
+  document.getElementById('table').style.display = 'block';
+  
+}
+
+function clearList() {
+  let list = document.getElementById('inquery-list');
+  let child = list.lastElementChild;
+  while (child) {
+    list.removeChild(child);
+    child = list.lastElementChild;
+  };
+  document.getElementById('table').style.display = 'none';
+  clearForm();
+}
+
+function clearChecked() {
+  let checked = document.querySelectorAll('.checkbox');
+  // console.log(checked[0].checked);
+  for (let i = 0; i <= checked.length - 1; i++) {
+    if (checked[i].checked === true) {
+      checked[i].parentElement.parentElement.remove();
+    }
+  }
+  document.getElementById('checked-button').style.backgroundColor = 'black';
+  const listCheck = document.querySelectorAll('tr');
+      if (listCheck.length <= 1) {
+        document.getElementById('table').style.display = 'none';        
+      }
 }
 
 function modal() {

@@ -10,7 +10,7 @@
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css"> -->
     <title>Loan Calculator</title>
     <style>
-      #loading, #results, table {
+      #loading, #results, .table-responsive {
         display: none;
       }
       body {font-family: Arial, Helvetica, sans-serif;}
@@ -57,7 +57,21 @@
 
           th {
             font-size: 75%
-          } 
+          }
+
+          #delete {
+            color: red;
+            font-weight: bold;
+          }
+
+          #delete:hover {
+            cursor: pointer;
+            color: pink;
+          }
+
+          textarea {
+            resize: none;
+          }
     </style>
   </head>
   <body class="bg-dark">
@@ -70,7 +84,7 @@
               <div class="form-group">
                 <div class="input-group">
                   <span class="input-group-text">$</span>
-                  <input type="number" class="form-control" id="amount" placeholder="Loan Amount">
+                  <input type="number" class="form-control" id="amount" placeholder="Loan Amount" autofocus>
                 </div>
               </div>
               <div class="form-group">
@@ -96,41 +110,49 @@
               <div class="form-group">
                 <div class="input-group">
                   <span class="input-group-text">Monthly Payment</span>
-                  <input type="number" id="monthly-payment" class="form-control" disabled>
+                  <textarea type="number" id="monthly-payment" rows="1" class="form-control" disabled></textarea>
                 </div>
               </div>
               <div class="form-group">
                 <div class="input-group">
                   <span class="input-group-text">Total Payment</span>
-                  <input type="number" id="total-payment" class="form-control" disabled>
+                  <textarea type="number" id="total-payment" rows="1" class="form-control" disabled></textarea>
                 </div>
               </div>
               <div class="form-group">
                 <div class="input-group">
                   <span class="input-group-text">Total Interest</span>
-                  <input type="number" id="total-interest" class="form-control" disabled>
+                  <textarea type="number" id="total-interest" rows="1" class="form-control" disabled></textarea>
                 </div>
                </div>
-               <form id="clear">
+               <form id="clear-form">
                 <div class="form-group">
                   <input type="submit" value="Clear Form" class="btn btn-dark btn-block">
                 </div>
                </form>      
             </div>
-            <div class="table-responsive">
+            <div id="table" class="table-responsive">
               <table class="table">
                 <thead class="thead-light">
                   <tr>
-                    <th>Amount</th>
-                    <th>Rate</th>
-                    <th>Years</th>
-                    <th>Monthly</th>
-                    <th>Total-Payment</th>
-                    <th>Total-Interest</th>
+                    <th>Loan Amount</th>
+                    <th>Interest Rate</th>
+                    <th># Years</th>
+                    <th>Monthly Payment</th>
+                    <th>Total Payment $$</th>
+                    <th>Total Interest $$</th>
+                    <th></th>
+                    <th>Select for Delete</th>
                   </tr>
                 </thead>
                 <tbody id="inquery-list"></tbody>
-              </table>
+              </table>  
+              <div id="clear-checked">
+                <button type="button" id='checked-button' onclick="clearChecked()" class="btn btn-dark float-right" style="margin-bottom: 10px">Delete Checked</button>
+              </div>             
+              <div id="clear-list">
+                <button type="button" onclick="clearList()" class="btn btn-dark btn-block">Clear List</button>
+              </div>
             </div>
           </div>
         </div>
