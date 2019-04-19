@@ -14,14 +14,14 @@ function UI() {
     const list = document.getElementById('inquery-list');
     const row = document.createElement('tr');
     row.innerHTML = `
-    <td>\$${loanInquery.amount}.00</td>
-    <td>${loanInquery.interest}%</td>
-    <td>${loanInquery.years}</td>
-    <td>\$${loanInquery.monthlyPayment}</td>
-    <td>\$${loanInquery.totalPayment}</td>
-    <td>\$${loanInquery.totalInterest}</td>
-    <td><span id="delete" class="delete">&times;</span></td>
-    <td><input type="checkbox" class="checkbox"></td>
+      <td>\$${loanInquery.amount}.00</td>
+      <td>${loanInquery.interest}%</td>
+      <td>${loanInquery.years}</td>
+      <td>\$${loanInquery.monthlyPayment}</td>
+      <td>\$${loanInquery.totalPayment}</td>
+      <td>\$${loanInquery.totalInterest}</td>
+      <td><span id="delete" class="delete">&times;</span></td>
+      <td><input type="checkbox" class="checkbox"></td>
     `;
 
     list.append(row);
@@ -107,10 +107,10 @@ function calculateResults() {
     modal();
     if (document.getElementById('table').style.display != 'block') {
     ui.addInqueryToList(loanInquery);
-    setTimeout(function() {clearLoading(), showResults(loanInquery), showTable()}, 500);
+    setTimeout(function() {showResults(loanInquery), showTable()}, 500);
     // setTimeout(showResults, 3200);
       } else {
-        setTimeout(function() {clearLoading(), showResults(loanInquery), ui.addInqueryToList(loanInquery)}, 500);
+        setTimeout(function() {showResults(loanInquery), ui.addInqueryToList(loanInquery)}, 500);
       }
     } else {
       showError('Please Check Your Numbers!');
@@ -136,9 +136,9 @@ function clearError() {
   document.querySelector('.alert').remove();
 }
 
-function clearLoading() {
-  document.getElementById('loading').style.display = 'none';
-}
+// function clearLoading() {
+//   document.getElementById('loading').style.display = 'none';
+// }
 
 function showResults() {
     document.getElementById('results').style.display = 'block';
@@ -205,7 +205,7 @@ function modal() {
   // document.getElementById('x').addEventListener('click', closeModal);
   setTimeout(closeModal, 1000);
   function closeModal() {
-    console.log(1);
+    // console.log(1);
     document.getElementById('modal').style.display = 'none';
   };
 }
