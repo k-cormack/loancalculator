@@ -93,7 +93,7 @@ function calculateResults() {
 
 
   if(isFinite(monthly)) {
-    document.getElementById('loading').style.display = 'block';
+    // document.getElementById('loading').style.display = 'block';
     monthlyPayment.value = monthly.toFixed(2);
     totalPayment.value = (monthly * calculatedPayments).toFixed(2);
     totalInterest.value = ((monthly * calculatedPayments) - principal).toFixed(2);
@@ -104,6 +104,7 @@ function calculateResults() {
     const loanInquery = new LoanInquery(amount.value, interest.value, years.value, monthlyPayment.value, totalPayment.value, totalInterest.value);
     // console.log(loanInquery);
     const ui = new UI();
+    modal();
     if (document.getElementById('table').style.display != 'block') {
     ui.addInqueryToList(loanInquery);
     setTimeout(function() {clearLoading(), showResults(loanInquery), showTable()}, 500);
@@ -201,8 +202,8 @@ function listCheck(e) {
 function modal() {
 // document.getElementById('content').innerHTML = `${href ='./src/content.html'}`
   document.getElementById('modal').style.display = 'block';
-  document.getElementById('x').addEventListener('click', closeModal);
-  
+  // document.getElementById('x').addEventListener('click', closeModal);
+  setTimeout(closeModal, 1000);
   function closeModal() {
     console.log(1);
     document.getElementById('modal').style.display = 'none';
