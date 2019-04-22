@@ -1,16 +1,71 @@
-//Loan Inquery constructor ES5
-function LoanInquery(amount, interest, years, monthlyPayment, totalPayment, totalInterest) {
-  this.amount = amount;
-  this.interest = interest;
-  this.years = years;
-  this.monthlyPayment = monthlyPayment;
-  this.totalPayment = totalPayment;
-  this.totalInterest = totalInterest;
+/////////////Loan Inquery constructor ES5/////////////////
+// function LoanInquery(amount, interest, years, monthlyPayment, totalPayment, totalInterest) {
+//   this.amount = amount;
+//   this.interest = interest;
+//   this.years = years;
+//   this.monthlyPayment = monthlyPayment;
+//   this.totalPayment = totalPayment;
+//   this.totalInterest = totalInterest;
+// }
+
+////////////////// UI Constructor ES5 ///////////////////////
+// function UI() {
+//   UI.prototype.addInqueryToList = function(loanInquery) {
+//     const list = document.getElementById('inquery-list');
+//     const row = document.createElement('tr');
+//     row.innerHTML = `
+//       <td>\$${loanInquery.amount}.00</td>
+//       <td>${loanInquery.interest}%</td>
+//       <td>${loanInquery.years}</td>
+//       <td>\$${loanInquery.monthlyPayment}</td>
+//       <td>\$${loanInquery.totalPayment}</td>
+//       <td>\$${loanInquery.totalInterest}</td>
+//       <td><span id="delete" class="delete">&times;</span></td>
+//       <td><input type="checkbox" class="checkbox"></td>
+//     `;
+
+//     list.append(row);
+
+//     row.addEventListener('click', function(e) {
+//       if (e.target.className === 'delete') {
+//         e.target.parentElement.parentElement.remove();
+//       }
+      
+//       if (e.target.className === 'checkbox') {
+//         let checked = document.querySelectorAll('.checkbox');
+//         for (let i = 0; i <= checked.length - 1; i++) {
+//           if (checked[i].checked === true) {
+//             document.getElementById('checked-button').style.backgroundColor = 'red';
+//             break;
+//           } else {
+//             document.getElementById('checked-button').style.backgroundColor = 'black';
+//           }
+//         }
+//       }
+//       listCheck(e);
+      
+//     });        
+//   }
+// }
+
+///////////// Loan Inquery constructor ES6 //////////////////////
+class LoanInquery {
+  constructor(amount, interest, years, monthlyPayment, totalPayment, totalInterest) {
+    this.amount = amount;
+    this.interest = interest;
+    this.years = years;
+    this.monthlyPayment = monthlyPayment;
+    this.totalPayment = totalPayment;
+    this.totalInterest = totalInterest
+  }
+
 }
 
-//UI Constructor ES5
-function UI() {
-  UI.prototype.addInqueryToList = function(loanInquery) {
+//////////////// UI Constructor ES6 ////////////////////
+
+class UI {
+  addInqueryToList(loanInquery) {
+    console.log(loanInquery);
     const list = document.getElementById('inquery-list');
     const row = document.createElement('tr');
     row.innerHTML = `
@@ -48,26 +103,45 @@ function UI() {
   }
 }
 
-document.getElementById('amount').addEventListener('keydown', function(e) {
-  if (e.which === 69) {
-    e.preventDefault();
+class Store {
+  static getInqueries() {
+    let inqueries;
+    if(localStorage.getItem('inqueries') === null) {
+      inqueries = [];
+    } else {
+      inqueries = JSON.parse(localStorage.getItem('inqueries'));
+    }
+    return inqueries;
   }
-})
-document.getElementById('interest').addEventListener('keydown', function(e) {
-  if (e.which === 69) {
-    e.preventDefault();
+
+  static showInqueries() {
+    let inqueries = Store.getInqueries();
+    if (inqueries != []) {
+      console.log(inqueries);
+      let ui = new UI();
+      for (let i = 0; i < inqueries.length; i++) {
+        console.log(inqueries);
+
+        ui.addInqueryToList(inqueries[i])
+      }
+    }
   }
-})
-document.getElementById('years').addEventListener('keydown', function(e) {
-  if (e.which === 69) {
-    e.preventDefault();
+
+  static addInquery(inquery) {
+    const inqueries = Store.getInqueries();
+    inqueries.push(inquery);
+    localStorage.setItem('inqueries', JSON.stringify(inqueries));
   }
-})
+
+  static removeInquery() {
+
+  }
+}
 
 document.getElementById('loan-form').addEventListener('submit', function(e) {
   document.getElementById('results').style.display = 'none';
   calculateResults();
-  // setTimeout(calculateResults, 4000);  
+    
   e.preventDefault();
 })
 
@@ -102,16 +176,16 @@ function calculateResults() {
     years.disabled = true;
     document.getElementById('calcBtn').disabled = true;
     const loanInquery = new LoanInquery(amount.value, interest.value, years.value, monthlyPayment.value, totalPayment.value, totalInterest.value);
-    // console.log(loanInquery);
+    
     const ui = new UI();
     modal();
     if (document.getElementById('table').style.display != 'block') {
     ui.addInqueryToList(loanInquery);
     setTimeout(function() {showResults(loanInquery), showTable()}, 500);
-    // setTimeout(showResults, 3200);
       } else {
         setTimeout(function() {showResults(loanInquery), ui.addInqueryToList(loanInquery)}, 500);
       }
+    Store.addInquery(loanInquery);
     } else {
       showError('Please Check Your Numbers!');
     }
@@ -205,3 +279,20 @@ function modal() {
     document.getElementById('modal').style.display = 'none';
   };
 }
+
+document.getElementById('amount').addEventListener('keydown', function(e) {
+  if (e.which === 69) {
+    e.preventDefault();
+  }
+})
+document.getElementById('interest').addEventListener('keydown', function(e) {
+  if (e.which === 69) {
+    e.preventDefault();
+  }
+})
+document.getElementById('years').addEventListener('keydown', function(e) {
+  if (e.which === 69) {
+    e.preventDefault();
+  }
+})
+Store.showInqueries();
