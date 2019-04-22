@@ -136,10 +136,6 @@ function clearError() {
   document.querySelector('.alert').remove();
 }
 
-// function clearLoading() {
-//   document.getElementById('loading').style.display = 'none';
-// }
-
 function showResults() {
     document.getElementById('results').style.display = 'block';
     document.getElementById('clear-form-btn').focus();
