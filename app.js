@@ -274,6 +274,7 @@ function clearList(e) {
     child = list.lastElementChild;
   };
   document.getElementById('table').style.display = 'none';
+  localStorage.removeItem('inqueries');
   clearForm(e);
 }
 
@@ -281,6 +282,7 @@ function clearChecked(e) {
   let checked = document.querySelectorAll('.checkbox');
   for (let i = 0; i <= checked.length - 1; i++) {
     if (checked[i].checked === true) {
+      Store.removeInquery(checked[i].parentElement.parentElement.firstElementChild.innerHTML);
       checked[i].parentElement.parentElement.remove();
     }
   }
@@ -292,6 +294,7 @@ function clearChecked(e) {
 function listCheck(e) {
   const listCheck = document.querySelectorAll('tr');
   if (listCheck.length <= 1) {
+    localStorage.removeItem('inqueries');
     document.getElementById('table').style.display = 'none';
     clearForm(e);
    }
