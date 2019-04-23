@@ -50,7 +50,8 @@
 
 ///////////// Loan Inquery constructor ES6 //////////////////////
 class LoanInquery {
-  constructor(amount, interest, years, monthlyPayment, totalPayment, totalInterest) {
+  constructor(inqueryNumber, amount, interest, years, monthlyPayment, totalPayment, totalInterest) {
+    this.inqueryNumber = inqueryNumber;
     this.amount = amount;
     this.interest = interest;
     this.years = years;
@@ -65,10 +66,11 @@ class LoanInquery {
 
 class UI {
   addInqueryToList(loanInquery) {
-    console.log(loanInquery);
+    // console.log(loanInquery.amount);
     const list = document.getElementById('inquery-list');
     const row = document.createElement('tr');
     row.innerHTML = `
+      <td style="display: none">${loanInquery.inqueryNumber}</td>
       <td>\$${loanInquery.amount}.00</td>
       <td>${loanInquery.interest}%</td>
       <td>${loanInquery.years}</td>
@@ -83,7 +85,9 @@ class UI {
 
     row.addEventListener('click', function(e) {
       if (e.target.className === 'delete') {
+        Store.removeInquery(e.target.parentElement.parentElement.firstElementChild.innerHTML);
         e.target.parentElement.parentElement.remove();
+        // console.log(e.target);
       }
       
       if (e.target.className === 'checkbox') {
@@ -117,12 +121,12 @@ class Store {
   static showInqueries() {
     let inqueries = Store.getInqueries();
     if (inqueries != []) {
-      console.log(inqueries);
       let ui = new UI();
       for (let i = 0; i < inqueries.length; i++) {
-        console.log(inqueries);
+        ui.addInqueryToList(inqueries[i]);
+        // console.log(inqueries);
+        showTable();
 
-        ui.addInqueryToList(inqueries[i])
       }
     }
   }
@@ -133,8 +137,31 @@ class Store {
     localStorage.setItem('inqueries', JSON.stringify(inqueries));
   }
 
-  static removeInquery() {
+  static removeInquery(inqueryNum) {
+    let inqueries = Store.getInqueries();
+    for (let i = 0; i < inqueries.length; i++) {
+      if (inqueries[i].inqueryNumber == inqueryNum) {
+        inqueries.splice(i, 1)
+        console.log(inqueries);
+        localStorage.setItem('inqueries', JSON.stringify(inqueries));
+      }
+    }
+  }
 
+  static checkInqueries() {
+    let inqueries = Store.getInqueries();
+    if (inqueries == 0) {
+      return 0;
+    } else {
+      let maxNum = 0;
+      for (let i = 0; i < inqueries.length; i++) {
+        let number = Number(inqueries[i].inqueryNumber);
+        if (number >= maxNum) {
+          maxNum = number;
+        }
+      }
+      return maxNum;      
+    }
   }
 }
 
@@ -146,8 +173,9 @@ document.getElementById('loan-form').addEventListener('submit', function(e) {
 })
 
 function calculateResults() {
-  // console.log('calculating');
 
+  const inqueryNumber = Store.checkInqueries() + 1;
+  
   const amount = document.getElementById('amount');
   const interest = document.getElementById('interest');
   const years = document.getElementById('years');
@@ -175,7 +203,7 @@ function calculateResults() {
     interest.disabled = true;
     years.disabled = true;
     document.getElementById('calcBtn').disabled = true;
-    const loanInquery = new LoanInquery(amount.value, interest.value, years.value, monthlyPayment.value, totalPayment.value, totalInterest.value);
+    const loanInquery = new LoanInquery(inqueryNumber, amount.value, interest.value, years.value, monthlyPayment.value, totalPayment.value, totalInterest.value);
     
     const ui = new UI();
     modal();
