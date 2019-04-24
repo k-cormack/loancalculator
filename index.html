@@ -55,6 +55,11 @@
         cursor: pointer;
       }
 
+      .table-wrapper-scroll-y {
+        display: block;
+        max-height: 200px;
+      }
+
       th {
         font-size: 75%
       }
@@ -137,8 +142,8 @@
             </div>
             <div class="row" id="table" >
               <div class="col">
-                <div class="table-responsive">
-                  <table class="table">
+                <div class="table-responsive table-wrapper-scroll-y">
+                  <table class="table table-hover table-sm">
                     <thead class="thead-light">
                       <tr>
                         <th>Loan Amount</th>
