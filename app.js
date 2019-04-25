@@ -246,6 +246,10 @@ function showError(error) {
 
 function clearError() {
   document.querySelector('.alert').remove();
+  const modal = document.getElementById('modal');
+  if (modal.style.display == "" ){
+    document.getElementById('amount').focus();
+  }
 }
 
 function showCat() {
@@ -353,7 +357,7 @@ function modal() {
   document.getElementById('modal').style.display = 'block';
   // document.getElementById('x').addEventListener('click', closeModal);
   setTimeout(closeModal, 1000);
-  };
+};
 
 function catModal(response) {
   if (typeof(response) === 'string') {
@@ -374,6 +378,7 @@ function catModal(response) {
 
 function closeModal() {
   document.getElementById('modal').style.display = 'none';
+  document.getElementById('amount').focus();
 }
 
 document.getElementById('amount').addEventListener('keydown', function(e) {
