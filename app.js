@@ -215,27 +215,52 @@ function calculateResults() {
       }
     Store.addInquery(loanInquery);
     } else {
-      showError('Please Check Your Numbers!');
+      showError('Please Check Your Numbers!  Or...');
     }
 }
 
 function showError(error) {
-  const errrorDiv = document.createElement('div');
+  const errorDiv = document.createElement('div');
 
   const card = document.querySelector('.card');
   const heading = document.querySelector('.heading');
 
-  errrorDiv.className = 'alert alert-danger';
+  errorDiv.className = 'alert alert-danger';
 
-  errrorDiv.appendChild(document.createTextNode(error));
+  errorDiv.appendChild(document.createTextNode(error));
+  const randomCat = document.createElement('button');
+  randomCat.id = 'cat-button';
+  randomCat.className = 'btn btn-outline-success';
+  randomCat.addEventListener('click', showCat);
+  randomCat.innerHTML = 'See a Cat!';
 
-  card.insertBefore(errrorDiv, heading);
+
+  errorDiv.appendChild(randomCat);
+
+  card.insertBefore(errorDiv, heading);
 
   setTimeout(clearError, 3000);
 }
 
 function clearError() {
   document.querySelector('.alert').remove();
+}
+
+function showCat() {
+  const xhr = new XMLHttpRequest();
+
+  xhr.open('GET', 'https://aws.random.cat/meow');
+  
+  xhr.onloadend = function() {
+    let response;
+    if (this.status != 200) {
+      response = 'Sorry...No Cats Today!';
+    } else {
+      response = JSON.parse(this.responseText);      
+    }
+    catModal(response);
+  }
+  xhr.send();
 }
 
 function showResults() {
@@ -301,14 +326,37 @@ function listCheck(e) {
 }
 
 function modal() {
-// document.getElementById('content').innerHTML = `${href ='./src/content.html'}`
+  // document.getElementById('content').innerHTML = `${href ='./src/content.html'}`
+  document.querySelector('.modal-content').innerHTML = `
+  <img src="img/loader.gif" alt="" style="height: 500px">
+  <p id="content">CALCULATING NOW.....</p>
+  `;
+  
   document.getElementById('modal').style.display = 'block';
   // document.getElementById('x').addEventListener('click', closeModal);
   setTimeout(closeModal, 1000);
-  function closeModal() {
-    // console.log(1);
-    document.getElementById('modal').style.display = 'none';
   };
+
+
+function catModal(response) {
+  if (typeof(response) === 'string') {
+    document.querySelector('.modal-content').style['align-items'] = 'center';
+    document.querySelector('.modal-content').innerHTML = `
+      <h1>${response}</h1>
+    `;
+    setTimeout(closeModal, 3000);
+  } else {
+    document.querySelector('.modal-content').innerHTML = `
+      <span id="x" class="close">&times</span>
+      <img src="${response.file}" style="width: 100%">
+    `;
+    document.getElementById('x').addEventListener('click', closeModal);
+  };
+  document.getElementById('modal').style.display = 'block';
+}
+
+function closeModal() {
+  document.getElementById('modal').style.display = 'none';
 }
 
 document.getElementById('amount').addEventListener('keydown', function(e) {
