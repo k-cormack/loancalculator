@@ -35,10 +35,10 @@
 //         let checked = document.querySelectorAll('.checkbox');
 //         for (let i = 0; i <= checked.length - 1; i++) {
 //           if (checked[i].checked === true) {
-//             document.getElementById('checked-button').style.backgroundColor = 'red';
+//             document.getElementById('delete-button').style.backgroundColor = 'red';
 //             break;
 //           } else {
-//             document.getElementById('checked-button').style.backgroundColor = 'black';
+//             document.getElementById('delete-button').style.backgroundColor = 'black';
 //           }
 //         }
 //       }
@@ -74,9 +74,9 @@ class UI {
       <td>\$${loanInquery.amount}.00</td>
       <td>${loanInquery.interest}%</td>
       <td>${loanInquery.years}</td>
-      <td>\$${loanInquery.monthlyPayment}</td>
-      <td>\$${loanInquery.totalPayment}</td>
-      <td>\$${loanInquery.totalInterest}</td>
+      <td>${loanInquery.monthlyPayment}</td>
+      <td>${loanInquery.totalPayment}</td>
+      <td>${loanInquery.totalInterest}</td>
       <td><span id="delete" class="delete">&times;</span></td>
       <td><input type="checkbox" class="checkbox"></td>
     `;
@@ -94,10 +94,13 @@ class UI {
         let checked = document.querySelectorAll('.checkbox');
         for (let i = 0; i <= checked.length - 1; i++) {
           if (checked[i].checked === true) {
-            document.getElementById('checked-button').style.backgroundColor = 'red';
+            document.getElementById('delete-button').style.backgroundColor = 'red';
+            document.getElementById('clear-checked-button').style.backgroundColor = 'green';
             break;
           } else {
-            document.getElementById('checked-button').style.backgroundColor = 'black';
+            document.getElementById('delete-button').style.backgroundColor = 'rgb(52, 58, 64)';
+            document.getElementById('clear-checked-button').style.backgroundColor = 'rgb(52, 58, 64)';
+
           }
         }
       }
@@ -142,7 +145,6 @@ class Store {
     for (let i = 0; i < inqueries.length; i++) {
       if (inqueries[i].inqueryNumber == inqueryNum) {
         inqueries.splice(i, 1)
-        console.log(inqueries);
         localStorage.setItem('inqueries', JSON.stringify(inqueries));
       }
     }
@@ -196,9 +198,9 @@ function calculateResults() {
 
   if(isFinite(monthly)) {
     // document.getElementById('loading').style.display = 'block';
-    monthlyPayment.value = monthly.toFixed(2);
-    totalPayment.value = (monthly * calculatedPayments).toFixed(2);
-    totalInterest.value = ((monthly * calculatedPayments) - principal).toFixed(2);
+    monthlyPayment.value = "$" + monthly.toFixed(2);
+    totalPayment.value = "$" + (monthly * calculatedPayments).toFixed(2);
+    totalInterest.value = "$" + ((monthly * calculatedPayments) - principal).toFixed(2);
     amount.disabled = true;
     interest.disabled = true;
     years.disabled = true;
@@ -287,7 +289,9 @@ function clearForm(e) {
 function showTable() {
   document.getElementById('table').style.display = 'block';
   document.getElementById('clear-list').addEventListener('click', clearList);
-  document.getElementById('checked-button').addEventListener('click', clearChecked)
+  document.getElementById('delete-button').addEventListener('click', deleteChecked);
+  document.getElementById('clear-checked-button').addEventListener('click', clearChecked);
+
   
 }
 
@@ -303,7 +307,7 @@ function clearList(e) {
   clearForm(e);
 }
 
-function clearChecked(e) {
+function deleteChecked(e) {
   let checked = document.querySelectorAll('.checkbox');
   for (let i = 0; i <= checked.length - 1; i++) {
     if (checked[i].checked === true) {
@@ -313,7 +317,21 @@ function clearChecked(e) {
   }
   listCheck(e);
 
-  document.getElementById('checked-button').style.backgroundColor = 'black';
+  document.getElementById('amount').focus();
+  document.getElementById('delete-button').style.backgroundColor = 'rgb(52, 58, 64)';
+  document.getElementById('clear-checked-button').style.backgroundColor = 'rgb(52, 58, 64)';
+
+}
+
+function clearChecked() {
+  let checked = document.querySelectorAll('.checkbox');
+  checked.forEach(element => {
+    element.checked = false;
+  });
+  document.getElementById('amount').focus();
+  document.getElementById('delete-button').style.backgroundColor = 'rgb(52, 58, 64)';
+  document.getElementById('clear-checked-button').style.backgroundColor = 'rgb(52, 58, 64)';
+
 }
 
 function listCheck(e) {
@@ -336,7 +354,6 @@ function modal() {
   // document.getElementById('x').addEventListener('click', closeModal);
   setTimeout(closeModal, 1000);
   };
-
 
 function catModal(response) {
   if (typeof(response) === 'string') {

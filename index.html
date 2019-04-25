@@ -10,6 +10,22 @@
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css"> -->
     <title>Loan Calculator</title>
     <style>
+      
+      /* .card {
+        max-height: 92vh;
+      } */
+
+
+      .table {
+        /* display: block; */
+        overflow: auto;
+        max-height: 30vh;
+      }
+
+      .thead-light #inquery-list {
+        display: flex;
+      }
+
       #loading, #results, #table{
         display: none;
       }
@@ -55,11 +71,21 @@
       }
 
       .table-wrapper-scroll-y {
-        display: block;
+        display: flex;
       }
 
       th {
         font-size: 75%
+      }
+
+      #checked-buttons {
+        justify-content: flex-end;
+        margin-top: 10px;
+        margin-right: 1px;
+      }
+
+      #clear-checked {
+        margin-right: 3px;
       }
 
       #delete {
@@ -85,7 +111,7 @@
   <body class="bg-dark">
     <div class="container">
       <div class="row">
-        <div class="col-md-8 mx-auto">
+        <div class="col-md-10 mx-auto">
           <div class="card card-body text-center mt-5" style="margin-bottom: 48px">
             <h1 class="heading display-5 pb-3">Loan Calculator</h1>
             <form id="loan-form">
@@ -159,8 +185,13 @@
                 </div>
               </div>
               <div class="col">
-                <div id="clear-checked">
-                  <button type="button" id='checked-button' class="btn btn-dark float-right" style="margin-bottom: 10px">Delete Checked</button>
+                <div class="row" id="checked-buttons">
+                  <div id="clear-checked">
+                    <button type="button" id="clear-checked-button" class="btn btn-dark float-right" style="margin-bottom: 10px">Clear Checked</button>
+                  </div>
+                  <div id="delete-checked">
+                      <button type="button" id='delete-button' class="btn btn-dark float-right" style="margin-bottom: 10px">Delete Checked</button>
+                    </div>
                 </div>             
                 <div>
                   <button type="button" id="clear-list" class="btn btn-dark btn-block">Clear List</button>
