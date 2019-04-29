@@ -361,12 +361,13 @@ function modal() {
 
 function catModal(response) {
   if (typeof(response) === 'string') {
-    document.querySelector('.modal-content').style['align-items'] = 'center';
+    document.querySelector('.modal-content').style['align-items'] = 'flex-end';
     document.querySelector('.modal-content').innerHTML = `
       <h1>${response}</h1>
     `;
     setTimeout(closeModal, 3000);
   } else {
+    document.querySelector('.modal-content').style['align-items'] = 'flex-end';
     document.querySelector('.modal-content').innerHTML = `
       <span id="x" class="close">&times</span>
       <img src="${response.file}" style="width: 100%">
@@ -378,6 +379,7 @@ function catModal(response) {
 
 function closeModal() {
   document.getElementById('modal').style.display = 'none';
+  document.querySelector('.modal-content').style['align-items'] = 'center';
   document.getElementById('amount').focus();
 }
 
