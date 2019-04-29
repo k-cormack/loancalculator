@@ -392,7 +392,7 @@ document.getElementById('interest').addEventListener('keydown', function(e) {
   }
 })
 document.getElementById('years').addEventListener('keydown', function(e) {
-  if (e.which === 69) {
+  if (e.which === 69 || e.key === ".") {
     e.preventDefault();
   }
 })
