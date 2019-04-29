@@ -253,20 +253,32 @@ function clearError() {
 }
 
 function showCat() {
-  const xhr = new XMLHttpRequest();
 
-  xhr.open('GET', 'https://aws.random.cat/meow');
+///////////////  AJAX  below /////////////////
+  // const xhr = new XMLHttpRequest();
+
+  // xhr.open('GET', 'https://aws.random.cat/meow');
   
-  xhr.onloadend = function() {
-    let response;
-    if (this.status != 200) {
-      response = 'Sorry...No Cats Today!';
-    } else {
-      response = JSON.parse(this.responseText);      
-    }
-    catModal(response);
-  }
-  xhr.send();
+  // xhr.onloadend = function() {
+  //   let response;
+  //   if (this.status != 200) {
+  //     response = 'Sorry...No Cats Today!';
+  //   } else {
+  //     response = JSON.parse(this.responseText);      
+  //   }
+  //   catModal(response);
+  // }
+  // xhr.send();
+
+
+//////////////////////  Fetch below /////////////////////
+  fetch('https://aws.random.cat/meow')
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(data) {
+      catModal(data);
+    })
 }
 
 function showResults() {
