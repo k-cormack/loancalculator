@@ -60,16 +60,16 @@
       }
 
           /* The Close Button */
-      .close {
+      /* .close {
         color: #aaaaaa;
         justify-items: right;
         font-size: 28px;
         font-weight: bold;
-      }
+      } */
 
       .close:hover, .close:focus {
-        color: #000;
-        text-decoration: none;
+        /* color: #000;
+        text-decoration: none; */
         cursor: pointer;
       }
 
@@ -115,6 +115,12 @@
     <div class="container">
       <div class="row">
         <div class="col-md-10 mx-auto">
+          <div class="row">
+            <div id="modal" class="modal">
+              <div class="modal-content row" style="align-items: center">
+              </div>
+            </div>
+          </div>
           <div class="card card-body text-center mt-5" style="margin-bottom: 48px">
             <h1 class="heading display-5 pb-3">Loan Calculator</h1>
             <form id="loan-form">
@@ -201,15 +207,11 @@
                 </div>
               </div>
             </div>
-         </div>
+          </div>
         </div>
       </div>
     </div>    
       
-      <div id="modal" class="modal container">
-        <div class="modal-content row" style="align-items: center">
-        </div>
-      </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
