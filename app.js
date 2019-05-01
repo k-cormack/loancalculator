@@ -381,7 +381,7 @@ function catModal(response) {
   } else {
     document.querySelector('.modal-content').style['align-items'] = 'flex-end';
     document.querySelector('.modal-content').innerHTML = `    
-      <span id="x" class="close">&times</span>      
+      <span id="x">&times</span>     
       <img src="${response.file}" style="object-fit: contain; width: 100%; height: 95%">          
     `;
     document.getElementById('x').addEventListener('click', closeModal);
