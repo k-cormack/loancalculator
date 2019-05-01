@@ -380,9 +380,9 @@ function catModal(response) {
     setTimeout(closeModal, 3000);
   } else {
     document.querySelector('.modal-content').style['align-items'] = 'flex-end';
-    document.querySelector('.modal-content').innerHTML = `
-      <span id="x" class="close">&times</span>
-      <img src="${response.file}" style="width: 100%">
+    document.querySelector('.modal-content').innerHTML = `    
+      <span id="x" class="close">&times</span>      
+      <img src="${response.file}" style="object-fit: contain; width: 100%; height: 95%">          
     `;
     document.getElementById('x').addEventListener('click', closeModal);
   };
