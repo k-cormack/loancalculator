@@ -312,15 +312,33 @@ function showTable() {
 }
 
 function clearList(e) {
-  let list = document.getElementById('inquery-list');
-  let child = list.lastElementChild;
-  while (child) {
-    list.removeChild(child);
-    child = list.lastElementChild;
-  };
-  document.getElementById('table').style.display = 'none';
-  localStorage.removeItem('inqueries');
-  clearForm(e);
+
+  swal({
+    title: "Are you sure you want to clear the entire list?",
+    text: "Once deleted, you will not be able to recover your inqueries!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+  .then((willDelete) => {
+    if (willDelete) {
+      let list = document.getElementById('inquery-list');
+      let child = list.lastElementChild;
+      while (child) {
+        list.removeChild(child);
+        child = list.lastElementChild;
+      };
+      document.getElementById('table').style.display = 'none';
+      localStorage.removeItem('inqueries');
+      clearForm(e);
+      swal("Your inqueries have been cleared....", {
+        icon: "success",
+      });
+    } else {
+      swal("Nothing cleared or deleted!");
+    }
+  });
+
 }
 
 function deleteChecked(e) {
