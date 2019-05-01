@@ -78,7 +78,7 @@ class UI {
       <td>${loanInquery.totalPayment}</td>
       <td>${loanInquery.totalInterest}</td>
       <td><span id="delete" class="delete">&times;</span></td>
-      <td><input type="checkbox" class="checkbox"></td>
+      <td><input type="checkbox" class="checkbox" style="margin-left: 25px"></td>
     `;
 
     list.append(row);
@@ -92,15 +92,24 @@ class UI {
       
       if (e.target.className === 'checkbox') {
         let checked = document.querySelectorAll('.checkbox');
+        let deleteBtn = document.getElementById('delete-button');
+        let clearBtn = document.getElementById('clear-checked-button');
         for (let i = 0; i <= checked.length - 1; i++) {
           if (checked[i].checked === true) {
-            document.getElementById('delete-button').style.backgroundColor = 'red';
-            document.getElementById('clear-checked-button').style.backgroundColor = 'green';
+            deleteBtn.style.backgroundColor = 'pink';
+            deleteBtn.style.color = 'rgb(85, 85, 85)';
+            deleteBtn.onmouseover = () => {mouseOverDelete()};
+            deleteBtn.onmouseout = () => {mouseOutDelete()};
+            clearBtn.style.backgroundColor = 'lightgreen';
+            clearBtn.style.color = 'rgb(85, 85, 85)';
+            clearBtn.onmouseover = () => {mouseOverClear()};
+            clearBtn.onmouseout = () => {mouseOutClear()};
             break;
           } else {
-            document.getElementById('delete-button').style.backgroundColor = 'rgb(52, 58, 64)';
-            document.getElementById('clear-checked-button').style.backgroundColor = 'rgb(52, 58, 64)';
-
+            deleteBtn.style.backgroundColor = 'rgb(85, 85, 85)';
+            deleteBtn.style.color = 'white';
+            clearBtn.style.backgroundColor = 'rgb(85, 85, 85)';
+            clearBtn.style.color = 'white';
           }
         }
       }
@@ -341,8 +350,23 @@ function clearList(e) {
 
 }
 
+function mouseOverDelete() {
+  document.getElementById('delete-button').style.backgroundColor = 'red';
+}
+function mouseOutDelete() {
+  document.getElementById('delete-button').style.backgroundColor = 'pink';
+}
+function mouseOverClear() {
+  document.getElementById('clear-checked-button').style.backgroundColor = 'green';
+}
+function mouseOutClear() {
+  document.getElementById('clear-checked-button').style.backgroundColor = 'lightgreen';
+}
+
 function deleteChecked(e) {
   let checked = document.querySelectorAll('.checkbox');
+  let deleteBtn = document.getElementById('delete-button');
+  let clearBtn = document.getElementById('clear-checked-button');
   for (let i = 0; i <= checked.length - 1; i++) {
     if (checked[i].checked === true) {
       Store.removeInquery(checked[i].parentElement.parentElement.firstElementChild.innerHTML);
@@ -350,22 +374,35 @@ function deleteChecked(e) {
     }
   }
   listCheck(e);
-
+  
+  deleteBtn.onmouseover = null;
+  deleteBtn.onmouseout = null;
+  deleteBtn.style.backgroundColor = 'rgb(85, 85, 85)';
+  deleteBtn.style.color = 'white';
+  clearBtn.onmouseover = null;
+  clearBtn.onmouseout = null;
+  clearBtn.style.backgroundColor = 'rgb(85, 85, 85)';
+  clearBtn.style.color = 'white';
   document.getElementById('amount').focus();
-  document.getElementById('delete-button').style.backgroundColor = 'rgb(52, 58, 64)';
-  document.getElementById('clear-checked-button').style.backgroundColor = 'rgb(52, 58, 64)';
-
+    
 }
 
 function clearChecked() {
   let checked = document.querySelectorAll('.checkbox');
+  let deleteBtn = document.getElementById('delete-button');
+  let clearBtn = document.getElementById('clear-checked-button');
   checked.forEach(element => {
     element.checked = false;
   });
   document.getElementById('amount').focus();
-  document.getElementById('delete-button').style.backgroundColor = 'rgb(52, 58, 64)';
-  document.getElementById('clear-checked-button').style.backgroundColor = 'rgb(52, 58, 64)';
-
+  deleteBtn.onmouseover = null;
+  deleteBtn.onmouseout = null;
+  deleteBtn.style.backgroundColor = 'rgb(85, 85, 85)';
+  deleteBtn.style.color = 'white';
+  clearBtn.onmouseover = null;
+  clearBtn.onmouseout = null;
+  clearBtn.style.backgroundColor = 'rgb(85, 85, 85)';
+  clearBtn.style.color = 'white';
 }
 
 function listCheck(e) {

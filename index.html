@@ -94,14 +94,24 @@
         margin-right: 3px;
       }
 
+      #clear-checked-button:hover {
+        /* background-color: green !important; */
+        color: white !important;
+      }
+
+      #delete-button:hover {
+        /* background-color: red !important; */
+        color: white !important;
+      }
+
       #delete {
-        color: red;
-        font-weight: bold;
+        color: pink;
       }
 
       #delete:hover {
         cursor: pointer;
-        color: pink;
+        color: red;
+        font-weight: bold;
       }
 
       textarea {
@@ -199,7 +209,7 @@
               <div class="col">
                 <div class="row" id="checked-buttons">
                   <div id="clear-checked">
-                    <button type="button" id="clear-checked-button" class="btn btn-dark float-right" style="margin-bottom: 10px">Clear Checked</button>
+                    <button type="button" id="clear-checked-button" class="btn btn-dark float-right" style="margin-bottom: 10px">Clear Selections</button>
                   </div>
                   <div id="delete-checked">
                       <button type="button" id='delete-button' class="btn btn-dark float-right" style="margin-bottom: 10px">Delete Checked</button>
