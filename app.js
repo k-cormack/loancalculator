@@ -30,7 +30,7 @@
 //       if (e.target.className === 'delete') {
 //         e.target.parentElement.parentElement.remove();
 //       }
-      
+
 //       if (e.target.className === 'checkbox') {
 //         let checked = document.querySelectorAll('.checkbox');
 //         for (let i = 0; i <= checked.length - 1; i++) {
@@ -43,7 +43,7 @@
 //         }
 //       }
 //       listCheck(e);
-      
+
 //     });        
 //   }
 // }
@@ -83,13 +83,13 @@ class UI {
 
     list.append(row);
 
-    row.addEventListener('click', function(e) {
+    row.addEventListener('click', function (e) {
       if (e.target.className === 'delete') {
         Store.removeInquery(e.target.parentElement.parentElement.firstElementChild.innerHTML);
         e.target.parentElement.parentElement.remove();
         // console.log(e.target);
       }
-      
+
       if (e.target.className === 'checkbox') {
         let checked = document.querySelectorAll('.checkbox');
         let deleteBtn = document.getElementById('delete-button');
@@ -98,12 +98,20 @@ class UI {
           if (checked[i].checked === true) {
             deleteBtn.style.backgroundColor = 'pink';
             deleteBtn.style.color = 'rgb(85, 85, 85)';
-            deleteBtn.onmouseover = () => {mouseOverDelete()};
-            deleteBtn.onmouseout = () => {mouseOutDelete()};
+            deleteBtn.onmouseover = () => {
+              mouseOverDelete()
+            };
+            deleteBtn.onmouseout = () => {
+              mouseOutDelete()
+            };
             clearBtn.style.backgroundColor = 'lightgreen';
             clearBtn.style.color = 'rgb(85, 85, 85)';
-            clearBtn.onmouseover = () => {mouseOverClear()};
-            clearBtn.onmouseout = () => {mouseOutClear()};
+            clearBtn.onmouseover = () => {
+              mouseOverClear()
+            };
+            clearBtn.onmouseout = () => {
+              mouseOutClear()
+            };
             break;
           } else {
             deleteBtn.style.backgroundColor = 'rgb(85, 85, 85)';
@@ -114,15 +122,15 @@ class UI {
         }
       }
       listCheck(e);
-      
-    });        
+
+    });
   }
 }
 
 class Store {
   static getInqueries() {
     let inqueries;
-    if(localStorage.getItem('inqueries') === null) {
+    if (localStorage.getItem('inqueries') === null) {
       inqueries = [];
     } else {
       inqueries = JSON.parse(localStorage.getItem('inqueries'));
@@ -161,32 +169,29 @@ class Store {
 
   static checkInqueries() {
     let inqueries = Store.getInqueries();
-    if (inqueries == 0) {
-      return 0;
-    } else {
-      let maxNum = 0;
-      for (let i = 0; i < inqueries.length; i++) {
-        let number = Number(inqueries[i].inqueryNumber);
-        if (number >= maxNum) {
-          maxNum = number;
-        }
+    let maxNum = 0;
+    for (let i = 0; i < inqueries.length; i++) {
+      let number = Number(inqueries[i].inqueryNumber);
+      if (number >= maxNum) {
+        maxNum = number;
       }
-      return maxNum;      
     }
+    return maxNum;
   }
 }
 
-document.getElementById('loan-form').addEventListener('submit', function(e) {
+
+document.getElementById('loan-form').addEventListener('submit', function (e) {
   document.getElementById('results').style.display = 'none';
   calculateResults();
-    
+
   e.preventDefault();
 })
 
 function calculateResults() {
 
   const inqueryNumber = Store.checkInqueries() + 1;
-  
+
   const amount = document.getElementById('amount');
   const interest = document.getElementById('interest');
   const years = document.getElementById('years');
@@ -202,10 +207,10 @@ function calculateResults() {
   const calculatedPayments = parseFloat(years.value) * 12;
 
   const x = Math.pow(1 + calculatedInterest, calculatedPayments);
-  const monthly = (principal * x * calculatedInterest) / (x-1);
+  const monthly = (principal * x * calculatedInterest) / (x - 1);
 
 
-  if(isFinite(monthly)) {
+  if (isFinite(monthly)) {
     // document.getElementById('loading').style.display = 'block';
     monthlyPayment.value = "$" + monthly.toFixed(2);
     totalPayment.value = "$" + (monthly * calculatedPayments).toFixed(2);
@@ -215,19 +220,23 @@ function calculateResults() {
     years.disabled = true;
     document.getElementById('calcBtn').disabled = true;
     const loanInquery = new LoanInquery(inqueryNumber, amount.value, interest.value, years.value, monthlyPayment.value, totalPayment.value, totalInterest.value);
-    
+
     const ui = new UI();
     modal();
     if (document.getElementById('table').style.display != 'block') {
-    ui.addInqueryToList(loanInquery);
-    setTimeout(function() {showResults(loanInquery), showTable()}, 500);
-      } else {
-        setTimeout(function() {showResults(loanInquery), ui.addInqueryToList(loanInquery)}, 500);
-      }
-    Store.addInquery(loanInquery);
+      ui.addInqueryToList(loanInquery);
+      setTimeout(function () {
+        showResults(loanInquery), showTable()
+      }, 500);
     } else {
-      showError('Please Check Your Numbers!  Or...');
+      setTimeout(function () {
+        showResults(loanInquery), ui.addInqueryToList(loanInquery)
+      }, 500);
     }
+    Store.addInquery(loanInquery);
+  } else {
+    showError('Please Check Your Numbers!  Or...');
+  }
 }
 
 function showError(error) {
@@ -256,18 +265,18 @@ function showError(error) {
 function clearError() {
   document.querySelector('.alert').remove();
   const modal = document.getElementById('modal');
-  if (modal.style.display == "" ){
+  if (modal.style.display == "") {
     document.getElementById('amount').focus();
   }
 }
 
 function showCat() {
 
-///////////////  AJAX  below /////////////////
+  ///////////////  AJAX  below /////////////////
   // const xhr = new XMLHttpRequest();
 
   // xhr.open('GET', 'https://aws.random.cat/meow');
-  
+
   // xhr.onloadend = function() {
   //   let response;
   //   if (this.status != 200) {
@@ -280,21 +289,21 @@ function showCat() {
   // xhr.send();
 
 
-//////////////////////  Fetch below /////////////////////
+  //////////////////////  Fetch below /////////////////////
   fetch('https://aws.random.cat/meow')
-    .then(function(response) {
+    .then(function (response) {
       return response.json();
     })
-    .then(function(data) {
+    .then(function (data) {
       catModal(data);
     })
 }
 
 function showResults() {
-    document.getElementById('results').style.display = 'block';
-    document.getElementById('clear-form-btn').focus();
-    document.getElementById('clear-form').addEventListener('submit', clearForm)
-// setTimeout(modal, 1000);
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('clear-form-btn').focus();
+  document.getElementById('clear-form').addEventListener('submit', clearForm)
+  // setTimeout(modal, 1000);
 }
 
 function clearForm(e) {
@@ -317,48 +326,51 @@ function showTable() {
   document.getElementById('delete-button').addEventListener('click', deleteChecked);
   document.getElementById('clear-checked-button').addEventListener('click', clearChecked);
 
-  
+
 }
 
 function clearList(e) {
 
   swal({
-    title: "Are you sure you want to clear the entire list?",
-    text: "Once deleted, you will not be able to recover your inqueries!",
-    icon: "warning",
-    buttons: true,
-    dangerMode: true,
-  })
-  .then((willDelete) => {
-    if (willDelete) {
-      let list = document.getElementById('inquery-list');
-      let child = list.lastElementChild;
-      while (child) {
-        list.removeChild(child);
-        child = list.lastElementChild;
-      };
-      document.getElementById('table').style.display = 'none';
-      localStorage.removeItem('inqueries');
-      clearForm(e);
-      swal("Your inqueries have been cleared....", {
-        icon: "success",
-      });
-    } else {
-      swal("Nothing cleared or deleted!");
-    }
-  });
+      title: "Are you sure you want to clear the entire list?",
+      text: "Once deleted, you will not be able to recover your inqueries!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        let list = document.getElementById('inquery-list');
+        let child = list.lastElementChild;
+        while (child) {
+          list.removeChild(child);
+          child = list.lastElementChild;
+        };
+        document.getElementById('table').style.display = 'none';
+        localStorage.removeItem('inqueries');
+        clearForm(e);
+        swal("Your inqueries have been cleared....", {
+          icon: "success",
+        });
+      } else {
+        swal("Nothing cleared or deleted!");
+      }
+    });
 
 }
 
 function mouseOverDelete() {
   document.getElementById('delete-button').style.backgroundColor = 'red';
 }
+
 function mouseOutDelete() {
   document.getElementById('delete-button').style.backgroundColor = 'pink';
 }
+
 function mouseOverClear() {
   document.getElementById('clear-checked-button').style.backgroundColor = 'green';
 }
+
 function mouseOutClear() {
   document.getElementById('clear-checked-button').style.backgroundColor = 'lightgreen';
 }
@@ -374,7 +386,7 @@ function deleteChecked(e) {
     }
   }
   listCheck(e);
-  
+
   deleteBtn.onmouseover = null;
   deleteBtn.onmouseout = null;
   deleteBtn.style.backgroundColor = 'rgb(85, 85, 85)';
@@ -384,7 +396,7 @@ function deleteChecked(e) {
   clearBtn.style.backgroundColor = 'rgb(85, 85, 85)';
   clearBtn.style.color = 'white';
   document.getElementById('amount').focus();
-    
+
 }
 
 function clearChecked() {
@@ -411,7 +423,7 @@ function listCheck(e) {
     localStorage.removeItem('inqueries');
     document.getElementById('table').style.display = 'none';
     clearForm(e);
-   }
+  }
 }
 
 function modal() {
@@ -420,14 +432,14 @@ function modal() {
   <img src="img/loader.gif" alt="" style="height: 500px">
   <p id="content">CALCULATING NOW.....</p>
   `;
-  
+
   document.getElementById('modal').style.display = 'block';
   // document.getElementById('x').addEventListener('click', closeModal);
   setTimeout(closeModal, 1000);
 };
 
 function catModal(response) {
-  if (typeof(response) === 'string') {
+  if (typeof (response) === 'string') {
     document.querySelector('.modal-content').style['align-items'] = 'flex-end';
     document.querySelector('.modal-content').innerHTML = `
       <h1>${response}</h1>
@@ -450,17 +462,17 @@ function closeModal() {
   document.getElementById('amount').focus();
 }
 
-document.getElementById('amount').addEventListener('keydown', function(e) {
+document.getElementById('amount').addEventListener('keydown', function (e) {
   if (e.which === 69) {
     e.preventDefault();
   }
 })
-document.getElementById('interest').addEventListener('keydown', function(e) {
+document.getElementById('interest').addEventListener('keydown', function (e) {
   if (e.which === 69) {
     e.preventDefault();
   }
 })
-document.getElementById('years').addEventListener('keydown', function(e) {
+document.getElementById('years').addEventListener('keydown', function (e) {
   if (e.which === 69 || e.key === ".") {
     e.preventDefault();
   }
